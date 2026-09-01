@@ -1,0 +1,145 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+# formalization.yaml v0.4
+version: "v0.4"
+
+project:
+  name: "austin-pair"
+  description: >-
+    Thin Palomar wrapper of an Austin pair from the Equational Theories
+    Project: magma laws Equation 3588 (x*y = z*((x*y)*z)) and Equation 3994
+    (x*y = (z*(x*y))*z) are equivalent on every finite magma, but neither
+    implies the other for magmas in general. The compared theorems exact
+    InfModel.Finite.Equation3994_implies_Equation3588 together with its dual
+    and the two infinite countermodels in teorth/equational_theories.
+  authors:
+    - "Dan Clemens Posch"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "Dan Clemens Posch"
+
+repository:
+  substantive_formalization:
+    id: "teorth/equational_theories"
+    revision: "e5a88a1479011ece4aad8e3c2e7e5c0ebc0a5b2a"
+
+classification:
+  arxiv: ["math.RA", "math.LO"]
+  msc2020: ["08A05", "03C05"]
+
+sources:
+  - title: "The Equational Theories Project: Advancing Collaborative Mathematical Research at Scale"
+    authors:
+      - "Matthew Bolan"
+      - "Joachim Breitner"
+      - "Jose Brox"
+      - "Nicholas Carlini"
+      - "Mario Carneiro"
+      - "Floris van Doorn"
+      - "Martin Dvorak"
+      - "Andrés Goens"
+      - "Aaron Hill"
+      - "Harald Husum"
+      - "Hernán Ibarra Mejia"
+      - "Zoltan A. Kocsis"
+      - "Bruno Le Floch"
+      - "Amir Livne Bar-on"
+      - "Lorenzo Luccioli"
+      - "Douglas McNeil"
+      - "Alex Meiburg"
+      - "Pietro Monticone"
+      - "Pace P. Nielsen"
+      - "Emmanuel Osalotioman Osazuwa"
+      - "Giovanni Paolini"
+      - "Marco Petracci"
+      - "Bernhard Reinke"
+      - "David Renshaw"
+      - "Marcus Rossel"
+      - "Cody Roux"
+      - "Jérémy Scanvic"
+      - "Shreyas Srinivas"
+      - "Anand Rao Tadipatri"
+      - "Terence Tao"
+      - "Vlad Tsyrklevich"
+      - "Fernando Vaquerizo-Villar"
+      - "Daniel Weber"
+      - "Fan Zheng"
+    id: "arXiv:2512.07087"
+    type: "paper"
+    location: "arXiv:2512.07087; InfModel.Finite.Equation3994_implies_Equation3588 and the dual countermodels"
+    relationship: "formalizes"
+    note: >-
+      Challenge restates Equations 3588 and 3994 with Mathlib Mul in place of
+      the project's Magma class. The wiki's "3944" is Lean Equation 3994.
+      Older notes mentioned 3308/3549; that pair is not the fully proved
+      Austin pair used here (3308 finite-implies 3511, and fails 3456 and
+      3511 in general).
+    license: "CC-BY-4.0"
+    author_endorsement: "not-contacted"
+
+related_formalizations:
+  - id: "https://github.com/teorth/equational_theories"
+    relationship: "builds-on"
+    note: >-
+      Substantive development. Compared proofs exact
+      InfModel.Finite.Equation3994_implies_Equation3588,
+      InfModel.Equation3994_not_implies_Equation3588, and
+      InfModel.Equation3588_not_implies_Equation3994 at commit
+      e5a88a1479011ece4aad8e3c2e7e5c0ebc0a5b2a.
+
+status:
+  scope: >-
+    Compared: finite equivalence of Equation 3994 and Equation 3588, and
+    the two non-implications in general. Not compared: other Austin pairs
+    (206/1648), Austin laws (Kisielewicz 28770 and 374794), or the rest of
+    the ETP implication graph.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Quot.sound", "Classical.choice"]
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["grok-4.6"]
+      framework: "Grok Build TUI"
+      tool_setup: "AI-assisted thin Palomar wrapper of teorth/equational_theories"
+      cost:
+        wall_time: "one session"
+        spend_usd: "not tracked"
+        hardware: "local machine"
+      prompting_notes: "Exact InfModel Austin-pair theorems; Challenge is Mathlib-only"
+  spend_usd: "not tracked"
+  notes: >-
+    Wrapper only. No new mathematical proof. Lean 4.29.1 matches the
+    upstream equational_theories toolchain.
+
+fidelity:
+  divergences: >-
+    Magma operation is Mathlib Mul rather than equational_theories.Magma
+    (same binary operation, different typeclass, to keep Challenge
+    Mathlib-only). The wiki's "Equation 3944" is Equation 3994 in Lean.
+    The compared existential does not include an Infinite hypothesis;
+    the ETP models are on ℕ.
+
+review:
+  status: "self-assessed"
+  reviewers:
+    - "none"
+  notes: "Statement surface follows InfModel.lean Equations 3588 and 3994."
+
+alignment:
+  namespace: "AustinPair"
+  statements:
+    - source: "InfModel.Finite.Equation3994_implies_Equation3588 and its dual"
+      lean: "AustinPair.finite_equivalence"
+      module: "Challenge"
+      status: "proved"
+      note: "Finite magmas: Equation 3994 ↔ Equation 3588."
+    - source: "InfModel.Equation3994_not_implies_Equation3588 and InfModel.Equation3588_not_implies_Equation3994"
+      lean: "AustinPair.not_in_general"
+      module: "Challenge"
+      status: "proved"
+      note: "Neither implication holds for magmas in general."
+
+acknowledgements: >-
+  Equational Theories Project (Tao, Monticone, Srinivas, and coauthors);
+  Mathlib; PalomarTemplate.
